@@ -1,0 +1,34 @@
+Method 1:Using Sliding Window
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    int window_sum=0;
+    for(int i=0;i<k;i++)
+    {
+        window_sum+=v[i];
+    }
+    int max_sum=window_sum;
+    for(int i=k;i<n;i++)
+    {
+        window_sum+=v[i]-v[i-k];
+        max_sum=max(max_sum,window_sum);
+    }
+    double max_avg=(double)max_sum/k;
+    cout<<max_avg;
+}
+
+Input:
+5 3 
+1 12 -5 -6 50
+
+Output:
+13
