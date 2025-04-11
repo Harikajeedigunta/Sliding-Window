@@ -1,0 +1,69 @@
+C++ Code:
+Method 1:Brute Force
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    for(int i=0;i<=n-k;i++)
+    {
+        int max_ele=v[i];
+        for(int j=i;j<i+k;j++)
+        {
+            max_ele=max(max_ele,v[j]);
+        }
+        cout<<max_ele<<" ";
+    }
+}
+
+Method 2:Using Sliding window and Deque
+#include<iostream>
+#include<vector>
+#include<deque>
+using namespace std;
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    // store the indices of elements in vector
+    deque<int>dq;
+    for(int i=0;i<n;i++)
+    {
+        // to check if elements are out of indices
+        if(!dq.empty() && dq.front()<=i-k)
+        {
+            dq.pop_front();
+        }
+        // If current element is less than last element in deque then it removes the last element
+        while(!dq.empty() && dq.back()<v[i])
+        {
+            dq.pop_back();
+        }
+        // Pushes current index
+        dq.push_back(i);
+        if(i>=k-1)
+        {
+            cout<<v[dq.front()]<<" ";
+        }
+    }
+    return 0;
+}
+
+Input:
+8 3  
+1 3 -1 -3 5 3 6 7
+
+Output:
+3 3 5 5 6 7 
