@@ -1,0 +1,86 @@
+C++ code:
+Method 1:Using Brute Force
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    int sum=0;
+    for(int i=0;i<=n-k;i++)
+    {
+        int max_ele=v[i];
+        int min_ele=v[i];
+        for(int j=i;j<i+k;j++)
+        {
+            if(v[j]>max_ele)
+            {
+                max_ele=v[j];
+            }
+            if(v[j]<min_ele)
+            {
+                min_ele=v[j];
+            }
+        }
+        sum+=max_ele+min_ele;
+    }
+    cout<<sum;
+}
+
+Method 2:Using sliding window and double deque
+#include<iostream>
+#include<vector>
+#include<deque>
+using namespace std;
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    deque<int>max_dq,min_dq;
+    int sum=0;
+    for(int i=0;i<n;i++)
+    {
+        if(!max_dq.empty() && max_dq.front()<=i-k)
+        {
+            max_dq.pop_front();
+        }
+        if(!min_dq.empty() && min_dq.front()<=i-k)
+        {
+            min_dq.pop_front();
+        }
+        while(!max_dq.empty() && v[max_dq.back()]<=v[i])
+        {
+            max_dq.pop_back();
+        }
+        max_dq.push_back(i);
+        while(!min_dq.empty() && v[min_dq.back()]>=v[i])
+        {
+            min_dq.pop_back();
+        }
+        min_dq.push_back(i);
+        if(i>=k-1)
+        {
+            sum+=v[max_dq.front()]+v[min_dq.front()];
+        }
+    }
+    cout<<sum<<endl;
+    return 0;
+}
+
+Input:
+5 2
+4 3 2 5 1
+
+Output:
+25
