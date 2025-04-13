@@ -1,0 +1,64 @@
+C++ Code:
+Method 1:Brute Force
+#include<iostream>
+#include<vector>
+#include<climits>
+using namespace std;
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    int min_sum=INT_MAX;
+    for(int i=0;i<=n-k;i++)
+    {
+        int sum=0;
+        for(int j=i;j<i+k;j++)
+        {
+            sum+=v[j];
+        }
+        min_sum=min(min_sum,sum);
+    }
+    cout<<min_sum<<endl;
+    return 0;
+}
+
+Method 2:Using sliding window
+#include<iostream>
+#include<vector>
+#include<climits>
+using namespace std;
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>v(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>v[i];
+    }
+    int window_sum=0;
+    for(int i=0;i<k;i++)
+    {
+        window_sum+=v[i];
+    }
+    int min_sum=window_sum;
+    for(int i=k;i<n;i++)
+    {
+        window_sum+=v[i]-v[i-k];
+        min_sum=min(min_sum,window_sum);
+    }
+    cout<<min_sum<<endl;
+    return 0;
+}
+
+Input:
+6 3
+2 1 5 1 3 2
+
+Output:
+6
